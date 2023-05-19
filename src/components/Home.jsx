@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import "../styles/StyleHome.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,24 +19,10 @@ export const getMovieList = async (page) => {
 const Home = () => {
   const dispatch = useDispatch();
   const { movies } = useSelector((state) => state.movies);
-  // const [popularMovieList, setPopularMovieList] = useState([]);
-  // const [page, setPage] = useState();
 
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
-
-  // console.log(popularMovieList);
-
-  // useEffect(() => {
-  //   getMovieList(page).then((results) => {
-  //     setPopularMovieList((prevList) => [...prevList, ...results]);
-  //   });
-  // }, [page]);
-
-  // const loadMoreMovies = () => {
-  //   setPage((prevPage) => prevPage + 1);
-  // };
 
   const PopularMovieCard = ({ title, poster, to }) => (
     <Card
@@ -73,18 +58,6 @@ const Home = () => {
             <h1>Populer Movie</h1>
           </div>
         </Col>
-
-        {/* <Col className="d-flex justify-content-end px-3" xs={6} md={4}>
-          <div className="d-flex align-items-center ">
-            <button
-              type="button"
-              onClick={loadMoreMovies}
-              style={{ border: "none", background: "black", color: "white" }}
-            >
-              Load More <AiOutlineArrowRight />
-            </button>
-          </div>
-        </Col> */}
       </Row>
 
       <div className="d-flex flex-wrap justify-content-center">
