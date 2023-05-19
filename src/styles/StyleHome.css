@@ -1,0 +1,7 @@
+.Card-component:hover {
+  transform: scale(0.9);
+  transition-delay: 0.2s;
+}
+.Col-popularmovie {
+    color: rgb(221, 189, 47);
+}
