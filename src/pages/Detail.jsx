@@ -6,6 +6,8 @@ import NavbarSearch from "../components/NavbarSearch";
 
 import "../styles/StyleDetail.css";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { detailMovies } from "../redux/actions/detailAction";
 
 const baseUrl = process.env.REACT_APP_BASEURL;
 const apiKey = process.env.REACT_APP_APIKEY;
@@ -41,23 +43,12 @@ function Detail() {
     getMe(params.id);
   });
 
-  const [detailMovie, setDetail] = useState({});
   const params = useParams();
+  const dispatch = useDispatch();
+  const { detail } = useSelector((state) => state.detail);
 
   useEffect(() => {
-    async function getDetail() {
-      try {
-        const response = await axios.get(
-          `${baseUrl}/movie/${params.id}?api_key=${apiKey}&language=en-US`
-        );
-        setDetail(response.data);
-        console.log(response.data);
-      } catch (error) {
-        alert(error);
-      }
-    }
-
-    getDetail();
+    dispatch(detailMovies(params.id));
   }, [params]);
 
   return (
@@ -67,21 +58,21 @@ function Detail() {
         <Carousel.Item>
           <img
             className="Carousel-img d-block w-100"
-            src={`https://image.tmdb.org/t/p/original${detailMovie?.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
             alt="First slide"
           />
           <Carousel.Caption className="Movie-caption">
-            <h2 className="Movie-caption-title">{detailMovie?.title}</h2>
+            <h2 className="Movie-caption-title">{detail?.title}</h2>
             <p className="Movie-genres">
-              {detailMovie?.genres &&
-                detailMovie?.genres?.length > 0 &&
-                detailMovie?.genres?.map((genre, i) => {
-                  return i === detailMovie?.genres.length - 1
+              {detail?.genres &&
+                detail?.genres?.length > 0 &&
+                detail?.genres?.map((genre, i) => {
+                  return i === detail?.genres.length - 1
                     ? genre.name
                     : `${genre.name}, `;
                 })}
             </p>
-            <p className="Movie-caption-text">{detailMovie?.overview}</p>
+            <p className="Movie-caption-text">{detail?.overview}</p>
             <Button className="Movie-caption-button" variant="warning">
               Watch Trailer
             </Button>
