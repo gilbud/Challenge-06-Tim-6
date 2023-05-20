@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Carousel } from "react-bootstrap";
 import NavbarSearch from "../components/NavbarSearch";
-import { StarFill } from "react-bootstrap-icons";
+
 import "../styles/StyleDetail.css";
 import { toast } from "react-toastify";
 
