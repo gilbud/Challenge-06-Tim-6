@@ -7,7 +7,7 @@ import NavbarSearch from "../components/NavbarSearch";
 import "../styles/StyleDetail.css";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { detailMovies } from "../../../ch6 fix/src/redux/actions/detailAction";
+import { detailMovies } from "../redux/actions/detailAction";
 
 const baseUrl = process.env.REACT_APP_BASEURL;
 const apiKey = process.env.REACT_APP_APIKEY;
