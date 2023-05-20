@@ -1,46 +1,31 @@
 import { React, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import NavbarNoSearch from "../components/NavbarNoSearch";
-import axios from "axios";
-import { toast } from "react-toastify";
+
 import GoogleOAuth from "../components/GoogleOAuth";
 import "../styles/StyleLogin.css";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/actions/authAction";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      let data = JSON.stringify({
-        email,
-        password,
-      });
+    let data = JSON.stringify({
+      email,
+      password,
+    });
 
-      let config = {
-        method: "post",
-        url: `${process.env.REACT_APP_API}/v1/auth/login`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      const response = await axios.request(config);
-      const { token } = response.data.data;
-
-      localStorage.setItem("token", token);
-
-      // navigate("/");
-
-      // Temporary solution
-      window.location.href = "/";
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+    dispatch(login(data, navigate));
   };
+
   return (
     <>
       <NavbarNoSearch />
