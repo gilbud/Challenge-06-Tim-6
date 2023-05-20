@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
-import NavbarNoSearch from "../components/NavbarNoSearch";
 
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+
+import NavbarNoSearch from "../components/NavbarNoSearch";
+import { useDispatch } from "react-redux";
+import { register } from "../redux/actions/authAction";
+import { useNavigate } from "react-router-dom";
 import GoogleOAuth from "../components/GoogleOAuth";
 
 import "../styles/StyleRegister.css";
 
 function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,35 +21,13 @@ function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      let data = JSON.stringify({
-        name,
-        email,
-        password,
-      });
+    let data = JSON.stringify({
+      name,
+      email,
+      password,
+    });
 
-      let config = {
-        method: "post",
-        url: `${process.env.REACT_APP_API}/v1/auth/register`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      const response = await axios.request(config);
-      const { token } = response.data.data;
-
-      localStorage.setItem("token", token);
-
-      window.location.href = "/";
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response.data.message);
-        return;
-      }
-      toast.error(error.message);
-    }
+    dispatch(register(data, navigate));
   };
 
   return (
